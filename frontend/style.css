@@ -1,0 +1,199 @@
+body {
+  display: flex;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+#map-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#sidebar {
+  width: 20%;
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  overflow-y: auto;
+  transition: width 0.3s;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #444;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+li:hover {
+  background-color: #666;
+}
+
+.high-radiation {
+  background-color: #ffcccc;
+  border: 2px solid red;
+}
+
+.medium-radiation {
+  background-color: #ccccff;
+  border: 2px solid blue;
+}
+
+.low-radiation {
+  background-color: #ccffcc;
+  border: 2px solid green;
+}
+
+.map-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.data-label {
+  font-weight: bold;
+}
+
+.control-panel {
+  margin-top: 20px;
+}
+
+.control-panel h2 {
+  margin: 10px 0;
+}
+
+.control-panel button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #444;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.control-panel button:hover {
+  background-color: #555;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 1000;
+}
+
+.toggle-button:hover {
+  background-color: #555;
+}
+
+/* Additional styles for the new features */
+.filter-section {
+  margin-top: 20px;
+  border-radius: 10px;
+  background-color: #444;
+  padding: 20px;
+}
+
+.filter-section label {
+  display: block;
+  margin-bottom: 5px;
+  color: white;
+}
+
+.filter-section input[type="range"] {
+  width: 100%;
+}
+
+.heatmap-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #444;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.heatmap-button:hover {
+  background-color: #555;
+}
+
+.heatmap-container {
+  display: none;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #444;
+  color: white;
+  margin-top: 10px;
+}
+
+.heatmap-container.active {
+  display: block;
+}
+
+.heatmap-toggle {
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Custom marker styles */
+.marker-green {
+  background-color: green; 
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}
+
+.marker-red {
+  background-color: red; 
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}
+
+.marker-blue {
+  background-color: blue; 
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}

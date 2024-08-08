@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Big Data Project</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.heat/dist/leaflet-heat.css"/>
+    <script src="app.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+  </head>
+  <body>
+    <div id="map-container">
+      <div id="map"></div>
+    </div>
+    <div id="sidebar">
+      <h1>Radiation Tracking</h1>
+      <div class="map-title">
+        <i class="fas fa-map-marked-alt fa-2x"></i>
+      </div>
+      <div class="control-panel">
+        <h2>Controls</h2>
+        <button onclick="zoomIn()">Zoom In</button>
+        <button onclick="zoomOut()">Zoom Out</button>
+        <button onclick="centerMap()">Center Map</button>
+        <button onclick="clearMarkers()">Clear Markers</button>
+      </div>
+      <div class="filter-section">
+        <h2>Data Speed</h2>
+        <label for="speedSlider"
+          >Speed: <span id="speedValue">5</span> seconds</label
+        >
+        <input
+          type="range"
+          id="speedSlider"
+          min="1000"
+          max="20000"
+          step="100"
+          value="5000"
+        />
+        <p>
+          <span style="color: red"><b>Red</b> </span> markers represents High
+          Radiation Area
+        </p>
+        <p>
+          <span style="color: green"><b>Green</b> </span>markers represents Low
+          Radiation Area
+        </p>
+        <p>
+          <span style="color: orange"><b>Orange</b> </span>markers represents
+          Moderate Radiation Area
+        </p>
+      </div>
+      <ul id="messages"></ul>
+    </div>
+    <button class="toggle-button" onclick="toggleSidebar()">+</button>
+    <script>
+      dataViewer();
+    </script>
+  </body>
+</html>
