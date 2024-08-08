@@ -1,0 +1,84 @@
+version: "3.9"
+
+networks:
+  bridge:
+    driver: bridge
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 32181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      bridge:
+        aliases:
+          - zookeeper
+
+  kafka:
+    image: confluentinc/cp-kafka
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:32181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      JMX_PORT: 9999
+    networks:
+      bridge:
+        aliases:
+          - kafka
+  consumer:
+    image: ibadsaleem/bigdataproject:consumerv1
+    depends_on:
+      - kafka-producer
+    networks:
+      - bridge
+    entrypoint: ["sh", "-c", "sleep 40 && node consumer.js"]
+
+  websocket:
+    image: ibadsaleem/bigdataproject:websocketv1
+    depends_on:
+      - consumer
+    networks:
+      - bridge
+    ports:
+      - "8080:8080" # Expose the WebSocket port
+    entrypoint: ["sh", "-c", "sleep 45 && node websocket.js"]
+
+  kafka-producer:
+    image: khanzz/kafka-producer:final
+    depends_on:
+    - kafka
+    environment:
+      KAFKA_SERVER: "kafka:9092"
+      ZOOKEEPER_SERVER: "zookeeper:32181"
+      PRODUCER_INTERVAL: 100
+    networks:
+    - bridge
+
+  flink-processor:
+    image: khanzz/flink-processor:latest1
+    depends_on:
+    - kafka
+    - kafka-producer
+    command: >
+      sh -c "
+        ./wait-for-it.sh kafka:9092 --timeout=30 --strict -- echo 'Kafka is up and running';
+        sleep 20; # Wait an additional 20 seconds to ensure Kafka Producer is fully operational
+        exec java -Xmx512m -jar flink-processor.jar
+      "
+    environment:
+      KAFKA_SERVER: "kafka:9092"
+      ZOOKEEPER_SERVER: "zookeeper:32181"
+      PRODUCER_INTERVAL: 100
+    networks:
+    - bridge
+    ports:
+      - "8081:8081"    
+
+volumes:
+  settings:
+  data:
